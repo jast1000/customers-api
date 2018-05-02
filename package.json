@@ -2,7 +2,7 @@
     "name": "testapi",
     "version": "1.0.0",
     "description": "",
-    "main": "server/server.js",
+    "main": "server.js",
     "scripts": {
         "deploy": "gcloud app deploy",
         "start": "node server/server.js",
