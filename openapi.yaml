@@ -1,0 +1,181 @@
+swagger: '2.0'
+
+info:
+  description: API para la administracion de clientes
+  version: 1.0.0
+  title: Customers API JAST
+  termsOfService: http://janiserver.servehttp.com/terms
+  contact:
+    name: Jesús Alberto Sánchez Tecalco
+    email: jast1000@gmail.com
+    url: http://janiserver.servehttp.com/profile
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+
+externalDocs:
+  description: Más información de la api
+  url: http://janiserver.servehttp.com/cuestomersapi/docs
+  
+schemes:
+ - https
+ - http
+
+# Tags
+tags:
+- name: customers
+  description: Administración de clientes
+
+# - http
+paths:
+  /customers:
+    #Listado
+    get:
+      tags:
+        - customers
+      summary: Listar clientes
+      description: Realiza un listado de los clientes registrados
+      produces: 
+        - application/json
+        - application/xml
+      parameters: 
+      - name: nombre
+        in: query
+        description: Texto para un filtrado por nombre
+        type: string
+        required: false
+      responses:
+        200:
+          description: Operacion exitosa
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Customer'
+  
+    #Creacion       
+    post:
+      tags:
+        - customers
+      summary: Alta de cliente 
+      description: Registro de un nuevo cliente
+      produces: 
+      - application/json
+      - application/xml
+      consumes: 
+      - application/json
+      - application/xml
+      parameters:
+      - in: body
+        name: body
+        description: Cliente a registrar
+        required: true
+        schema:
+          $ref: '#/definitions/Customer'
+      responses:
+        201:
+          description: Operación exitosa
+        400:
+          description: Estructura de cliente inválida
+      
+  /customers/{id}:
+    # Buscar
+    get:
+      tags:
+        - customers
+      summary: Buscar cliente
+      description: Buscar un cliente por su identificador
+      produces: 
+        - application/json
+        - application/xml
+      parameters: 
+      - name: id
+        in: path
+        description: Id del cliente
+        required: true
+        type: integer
+        format: int64
+          
+      responses:
+        200:
+          description: Operación exitosa
+          schema:
+            $ref: '#/definitions/Customer'
+            
+    #Actualizacion
+    put:
+      tags:
+        - customers
+      summary: Actualizar cliente
+      description: Actualizar información de cliente registrado
+      produces: 
+      - application/json
+      - application/xml
+      consumes: 
+      - application/json
+      - application/xml
+      parameters: 
+      - name: id
+        in: path
+        description: Id del cliente a actualizar
+        required: true
+        type: integer
+        format: int64
+      - name: body 
+        in: body
+        description: Informacion cliente
+        required: true
+        schema:
+          $ref: '#/definitions/Customer'
+      responses:
+        200:
+          description: Operación exitosa
+        400:
+          description: |
+            * Cliente inválido
+            * Estructura de cliente inválida
+    
+    #Eliminar
+    delete:
+      tags: 
+      - customers
+      summary: Eliminar cliente
+      description: Eliminación de un cliente registrado
+      produces: 
+      - application/json
+      - application/xml
+      parameters: 
+      - name: id
+        in: path
+        description: Id del cliente a eliminar
+        required: true
+        type: integer
+        format: int64
+      responses:
+        200:
+          description: Operación exitosa
+        400:
+          description: Cliente inválido
+            
+definitions:
+  Customer:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+        description: Identificador del cliente
+      nombre:
+        type: string
+        description: Nombre completo de cliente
+      correo:
+        type: string
+        description: Correo electrónico del cliente
+      telefono:
+        type: string
+        description: Número telefónico del cliente
+    xml:
+      name: Cliente
+      
+# Added by API Auto Mocking Plugin
+host: customersapi-202917.appspot.com
+basePath: /v1
